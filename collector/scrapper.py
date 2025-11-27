@@ -18,6 +18,8 @@ class Scrapper:
         if req.status_code == 200:
             return req.json()
         
+        return { "status": "error" }
+        
     def get_irradiacao_solar(self, lat="", long=""):
         lat = lat if lat else self.latitudeNAS
         long = long if long else self.longitudeNAS
@@ -26,6 +28,8 @@ class Scrapper:
         
         if req.status_code == 200:
             return req.json()
+        
+        return { "status": "error" }
     
     
 if __name__ == "__main__":
