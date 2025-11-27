@@ -1,0 +1,5 @@
+pika
+requests
+apscheduler
+openai
+python-dotenv
