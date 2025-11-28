@@ -30,11 +30,13 @@ export class WeatherLogsDTO {
     @IsNumber()
     longitude: number
 
-    @ValidateNested()
+    @IsArray()
+    @ValidateNested({ each: true })
     @Type(() => HourlyUnitsDTO)
     hourly_units: HourlyUnitsDTO[]
 
-    @ValidateNested()
+    @IsArray()
+    @ValidateNested({ each: true })
     @Type(() => HourlyDTO)
     hourly: HourlyDTO[]
 }
