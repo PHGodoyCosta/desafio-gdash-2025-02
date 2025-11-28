@@ -1,0 +1,21 @@
+{
+	"nodes":[
+		{"id":"922ca9ec7f1c1aed","type":"text","text":"**Explorar**\n -> /explorar\n\nConsumindo a Rick And Morty API:\n* Listagem de personagens","x":-680,"y":-1000,"width":300,"height":240},
+		{"id":"3e1cdd2b329f6049","type":"text","text":"**Explorar/Busca**\n -> /explorar/search\n\n* Busca por personagens","x":-120,"y":-1240,"width":300,"height":240},
+		{"id":"3ec459630dc525c4","type":"text","text":"**Explorar/Personagem**\n -> /explorar/\\<caracterID>\n\n* Página do personagem","x":-120,"y":-800,"width":300,"height":240},
+		{"id":"6afdd4a4ce6fca56","type":"text","text":"**Página principal**\n -> /\n\nAqui fica o:\n* Mostrador de clima\n* Gráficos\n* Insights com I.A\n* Assinar Newsletter\n  Exportação xlsx/csv","x":-1160,"y":-370,"width":300,"height":270},
+		{"id":"cb250b8435b5d9b9","type":"text","text":"**Login**\n -> /login\n\nPágina de Autenticação do usuário","x":-680,"y":320,"width":300,"height":240},
+		{"id":"c901c44f2e73a1ba","type":"text","text":"**Criar usuário**\n -> /criar-conta\n\nPágina para criação de conta","x":-120,"y":320,"width":300,"height":240},
+		{"id":"59e05423dbbc3e3d","type":"text","text":"**Dashboard**\n -> /dashboard\n\nPágina principal do usuário\n* Deletar conta\n* Editar informações\n* Deslogar\n* Ver informações principais\n* Assinar/Desassinar newsletter","x":-680,"y":-380,"width":300,"height":280}
+	],
+	"edges":[
+		{"id":"6015ef369c101d78","fromNode":"6afdd4a4ce6fca56","fromSide":"right","toNode":"922ca9ec7f1c1aed","toSide":"left"},
+		{"id":"3e9034a2fdd6e3b4","fromNode":"922ca9ec7f1c1aed","fromSide":"right","toNode":"3e1cdd2b329f6049","toSide":"left"},
+		{"id":"63a86ee02f717c88","fromNode":"922ca9ec7f1c1aed","fromSide":"right","toNode":"3ec459630dc525c4","toSide":"left"},
+		{"id":"f741ff64fd6f7130","fromNode":"3e1cdd2b329f6049","fromSide":"bottom","toNode":"3ec459630dc525c4","toSide":"top"},
+		{"id":"5b0c2603ee4e245d","fromNode":"cb250b8435b5d9b9","fromSide":"right","toNode":"c901c44f2e73a1ba","toSide":"left"},
+		{"id":"b8f4d4ffadba3e46","fromNode":"6afdd4a4ce6fca56","fromSide":"right","toNode":"cb250b8435b5d9b9","toSide":"left"},
+		{"id":"d30cc26aaa4a88af","fromNode":"6afdd4a4ce6fca56","fromSide":"right","toNode":"59e05423dbbc3e3d","toSide":"left"},
+		{"id":"9e850cf517726fc6","fromNode":"cb250b8435b5d9b9","fromSide":"top","toNode":"59e05423dbbc3e3d","toSide":"bottom"}
+	]
+}

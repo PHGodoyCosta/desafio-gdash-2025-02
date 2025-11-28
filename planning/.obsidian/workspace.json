@@ -1,0 +1,213 @@
+{
+  "main": {
+    "id": "b023bc0fae619866",
+    "type": "split",
+    "children": [
+      {
+        "id": "e7aa7e1a5da10414",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "54dc4137dd7cd3c2",
+            "type": "leaf",
+            "state": {
+              "type": "canvas",
+              "state": {
+                "file": "Rotas.canvas",
+                "viewState": {
+                  "x": -259.79154263401404,
+                  "y": -247.38510155997483,
+                  "zoom": -0.8000000000000002
+                }
+              },
+              "icon": "lucide-layout-dashboard",
+              "title": "Rotas"
+            }
+          },
+          {
+            "id": "83f5d8112bc9fb7a",
+            "type": "leaf",
+            "state": {
+              "type": "canvas",
+              "state": {
+                "file": "Rotas.canvas",
+                "viewState": {
+                  "x": -620,
+                  "y": 150.40000000000003,
+                  "zoom": 0
+                }
+              },
+              "icon": "lucide-layout-dashboard",
+              "title": "Rotas"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "a69d8a068ed41f5b",
+    "type": "split",
+    "children": [
+      {
+        "id": "fc2ad659521c3a48",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "6f514cbef56541a7",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Explorador de arquivos"
+            }
+          },
+          {
+            "id": "30037fe074db331a",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Procurar"
+            }
+          },
+          {
+            "id": "6aaa0e18581e9bb8",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Marcadores"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "d17dae2442eae8e7",
+    "type": "split",
+    "children": [
+      {
+        "id": "c956e711f1e90c8c",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "95388767e892a4b5",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Rotas.canvas",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Links inversos para Rotas"
+            }
+          },
+          {
+            "id": "b302c00496405d1f",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Rotas.canvas",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Links de saída para Rotas"
+            }
+          },
+          {
+            "id": "8a6c8726fe030e31",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "c3d81f28382fcd02",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "Todas as propriedades"
+            }
+          },
+          {
+            "id": "8a399c710684b97c",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Rotas.canvas",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Sumário de Rotas"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Abrir a troca rápida": false,
+      "graph:Abrir visualização em gráfico": false,
+      "canvas:Criar novo canvas": false,
+      "daily-notes:Abrir a nota de hoje": false,
+      "templates:Inserir modelo": false,
+      "command-palette:Abrir paleta de comandos": false,
+      "bases:Criar nova base": false
+    }
+  },
+  "active": "54dc4137dd7cd3c2",
+  "lastOpenFiles": [
+    "Detalhes das páginas.md",
+    "Rotas.canvas",
+    "minha-base.base",
+    "Criei esse na base.md"
+  ]
+}
