@@ -14,6 +14,9 @@ export class User {
 
     @Prop({ required: true, unique: true })
     email: string;
+
+    @Prop({ default: "user" })
+    type: string
 }
 
 export type UserDocument = HydratedDocument<User> //Para tipagens em users.service

@@ -19,6 +19,7 @@ export class UsersService {
                 hash: v4(),
                 name: data.name,
                 email: data.email,
+                type: "user",
                 password: bcryptHash(data.password, 10)
             })
 
@@ -54,6 +55,34 @@ export class UsersService {
         }
 
         return user
+    }
+
+    async delete(hash: string) {
+        const result = await this.userModel.deleteOne({ hash }).exec()
+        
+        if (result.deletedCount === 0) {
+            throw new HttpException("Usuário não encontrado", 404);
+        }
+
+        return {
+            message: "Usuário deletado com sucesso"
+        };
+    }
+
+    async rename(hash: string, name: string) {
+        try {
+            await this.userModel.updateOne(
+                { hash: hash },
+                { name: name }
+            )
+
+            return {
+                name: name,
+                hash: hash
+            }
+        } catch {
+            throw new HttpException("Não consegui renomear o usuário", 500)
+        }
     }
 
     async isRegistered(email: string) {
