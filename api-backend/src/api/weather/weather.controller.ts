@@ -52,7 +52,7 @@ export class WeatherController {
 
         const buffer = await workbook.csv.writeBuffer()
 
-        res.send(Buffer.from(buffer).toString("utf-8"));
+        res.send("\uFEFF" + Buffer.from(buffer).toString("utf-8"));
     }
 
 }
