@@ -24,7 +24,10 @@ function CreateAccountPage() {
             <div className="h-screen w-full flex">
                 <div className="md:w-1/2 w-full flex items-center justify-center bg-white">
                     <div className="w-full max-w-sm">
-                        <form action="/criar-conta" method="POST">
+                        <div className="w-full flex justify-center md:hidden mb-2">
+                            <img className="w-70" src={avatar_com_blob} alt="Avatar" />
+                        </div>
+                        <form className="p-2" action="/criar-conta" method="POST">
                             <FieldSet>
                                 <a className="block w-20" href="/">
                                     <img className="w-20" src={logo_trans} alt="Logo do GDASH" />
