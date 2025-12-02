@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { ButtonGroup } from "@/components/ui/button-group"
+// import { ButtonGroup } from "@/components/ui/button-group"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import {
     Pagination,
@@ -8,45 +8,73 @@ import {
     PaginationLink,
 } from "@/components/ui/pagination"
 import PageTemplate from "@/PageTemplates/PageTemplate"
-
+import video from "../../assets/video_weather/rain.mp4"
 
 function DashboardAdmin() {
     return (
         <>
             <PageTemplate>
+                <div className="relative w-full h-[300px] overflow-hidden rounded-xl">
+                {/* Vídeo de fundo */}
+                <video
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="absolute top-0 left-0 w-full h-full object-cover"
+                >
+                    <source src={video} type="video/mp4" />
+                </video>
+
+                {/* Conteúdo por cima */}
+                <div className="relative z-10 p-6 text-white">
+                    <h1 className="text-3xl font-bold">Clima agora</h1>
+                    <p>24°C · Ensolarado</p>
+                </div>
+
+                {/* Sombra escura opcional */}
+                <div className="absolute inset-0 bg-black/70"></div>
+                </div>
+
                 <div className="w-full flex flex-col justify-center">
-                    <div className="w-8/10">
+                    <div>
                         <h2 className="text-2xl font-bold mt-5 pl-4">Painel Administrativo</h2>
-                        <div className="mt-4 pl-4">
+                        {/* <div className="mt-4 pl-4">
                             <ButtonGroup>
                                 <Button className="bg-[#F4A153] text-white" variant="outline">Usuários</Button>
                                 <Button className="bg-[#F4A153] text-white" variant="outline">Dados</Button>
                             </ButtonGroup>
-                        </div>
-                        <div className="flex justify-center mt-3 mb-3">
+                        </div> */}
+                    </div>
+                    <div className="w-full flex justify-center mt-4 mb-3">
+                        <div className="w-9/10">
                             <div className="border rounded-[5px]">
                                 <Table className="w-full">
                                     <TableHeader>
                                         <TableRow>
-                                            <TableHead>Hora</TableHead>
-                                            <TableHead>Tempo</TableHead>
-                                            <TableHead>Chuva</TableHead>
-                                            <TableHead>Vento</TableHead>
+                                            <TableHead>Nome</TableHead>
+                                            <TableHead>Email</TableHead>
+                                            <TableHead>Tipo</TableHead>
+                                            <TableHead>Ação</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
                                         <TableRow>
-                                            <TableCell>00:00</TableCell>
-                                            <TableCell>30°</TableCell>
-                                            <TableCell>0 mm</TableCell>
-                                            <TableCell>0%</TableCell>
+                                            <TableCell>Pedro Henrique Godoy</TableCell>
+                                            <TableCell>p@p.com</TableCell>
+                                            <TableCell>User</TableCell>
+                                            <TableCell>
+                                                <Button variant={"destructive"} >Apagar</Button>
+                                            </TableCell>
                                         </TableRow>
 
                                         <TableRow>
-                                            <TableCell>01:00</TableCell>
-                                            <TableCell>29°</TableCell>
-                                            <TableCell>0 mm</TableCell>
-                                            <TableCell>0%</TableCell>
+                                            <TableCell>Pedro Henrique Godoy</TableCell>
+                                            <TableCell>p@p.com</TableCell>
+                                            <TableCell>User</TableCell>
+                                            <TableCell>
+                                                <Button variant={"destructive"} >Apagar</Button>
+                                            </TableCell>
                                         </TableRow>
                                     </TableBody>
                                 </Table>
