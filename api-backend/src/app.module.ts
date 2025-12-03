@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ApiModule } from './api/api.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigService, ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { WeatherModule } from './weather/weather.module';
+import { RickAndMortyModule } from './rick-and-morty/rick-and-morty.module';
 
 @Module({
     imports: [
@@ -27,12 +28,13 @@ import { UsersModule } from './users/users.module';
                 
             }
         }),
-
-        ApiModule,
+        WeatherModule,
 
         AuthModule,
 
-        UsersModule
+        UsersModule,
+
+        RickAndMortyModule
     ],
     controllers: [AppController],
     providers: [AppService],
