@@ -1,12 +1,11 @@
-import type { PropsWithChildren } from "react"
-import video from '../assets/video_weather/sunny_2.mp4'
 
 type VideoTemplateProps = {
     children: React.ReactNode,
-    opacity?: number
+    opacity?: number,
+    video: string
 }
 
-function VideoTemplate({ children, opacity }: VideoTemplateProps) {
+function VideoTemplate({ children, opacity, video }: VideoTemplateProps) {
     return (
         <>
             <div className="relative w-full overflow-hidden mt-2 rounded-xl">

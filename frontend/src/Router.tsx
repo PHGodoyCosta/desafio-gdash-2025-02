@@ -6,6 +6,7 @@ import ExplorarPage from "./pages/Explorar/ExplorarPage";
 import Personagem from "./pages/Explorar/Personagem/Personagem";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import DashboardAdmin from "./pages/Admin/DashboardAdmin";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 
 const router = createBrowserRouter([
     {
@@ -30,11 +31,19 @@ const router = createBrowserRouter([
     },
     {
         path: "/dashboard",
-        element: <Dashboard />
+        element: (
+            <ProtectedRoute>
+                <Dashboard />
+            </ProtectedRoute>
+        )
     },
     {
         path: "/admin/dashboard",
-        element: <DashboardAdmin />
+        element: (
+            <ProtectedRoute type="admin">
+                <DashboardAdmin />
+            </ProtectedRoute>
+        )
     }
 ])
 

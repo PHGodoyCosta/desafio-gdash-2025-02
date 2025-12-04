@@ -3,6 +3,7 @@ import PageTemplate from "./PageTemplates/PageTemplate";
 import { Button } from "@/components/ui/button"
 import { ButtonGroup } from "@/components/ui/button-group"
 import nuvem from './assets/weather/ceu_nublado.webm'
+import video_ensolarado from './assets/video_weather/tempestade.mp4'
 import { Download } from 'lucide-react'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import {
@@ -21,8 +22,17 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'r
 import SenhoraDoTempo from "./components/Senhora do Tempo/SenhoraDoTempo";
 import Newsletter from "./components/Newsletter/Newsletter";
 import VideoTemplate from "./PageTemplates/VideoTemplate";
+import { Toaster, toast } from "sonner";
+//import { useEffect } from "react";
 
 function App() {
+    const apiUrl = import.meta.env.VITE_API_URL
+
+    // useEffect(() => {
+    //     const date = new Date()
+
+    // }, [])
+
     const exampleData = [
         { name: "00:00", pv: 30, uv: 0 },
         { name: "01:00", pv: 29, uv: 0 },
@@ -36,6 +46,35 @@ function App() {
         { name: "09:00", pv: 34, uv: 4 },
     ]
 
+    const downloadExcel = async(type: string) => {
+        try {
+            const res = await fetch(`${apiUrl}/api/weather/export.${type}`, {
+                method: "GET"
+            })
+
+            if (!res.ok) {
+                throw new Error("Erro ao baixar arquivo")
+            }
+
+            const blob = await res.blob()
+            const url = window.URL.createObjectURL(blob)
+
+            const a = document.createElement("a")
+            a.href = url
+            a.download = `dados_clima.${type}`
+            document.body.appendChild(a);
+            a.click()
+            a.remove()
+
+            window.URL.revokeObjectURL(url)
+
+        } catch (err) {
+            toast.error("Erro no download! Tente novamente mais tarde!")
+            console.error(err);
+        }
+    };
+
+
     return (
         <>
             <PageTemplate>
@@ -43,25 +82,25 @@ function App() {
                     <div className="flex flex-col gap-2 md:gap-0 md:flex-row md:justify-between md:items-center">
                         <span className="text-xl">Nova Alvorada do Sul - MS</span>
                         <div className="flex justify-center">
-                            <Button className="bg-[#273A57] text-white" variant="outline">
+                            <Button onClick={() => downloadExcel("xlsx")} className="bg-[#273A57] text-white" variant="outline">
                                 Download .xlsx
                                 <Download />
                             </Button>
-                            <Button className="bg-[#273A57] text-white" variant="outline">
+                            <Button onClick={() => downloadExcel("csv")} className="bg-[#273A57] text-white" variant="outline">
                                 Download .csv
                                 <Download />
                             </Button>
                         </div>
                     </div>
-                    <div className="w-full flex md:justify-center mt-2 md:mt-4">
+                    <div className="w-full flex md:justify-center mt-3 mb-2 md:mt-4">
                         <ButtonGroup className="hidden md:flex">
-                            <Button className="bg-[#F4A153] text-white" variant="outline">Segunda</Button>
-                            <Button className="bg-[#F4A153] text-white" variant="outline">Terça</Button>
-                            <Button className="bg-[#F4A153] text-white" variant="outline">Quarta</Button>
-                            <Button className="bg-[#F4A153] text-white" variant="outline">Quinta</Button>
-                            <Button className="bg-[#F4A153] text-white" variant="outline">Sexta</Button>
-                            <Button className="bg-[#F4A153] text-white" variant="outline">Sábado</Button>
-                            <Button className="bg-[#F4A153] text-white" variant="outline">Domingo</Button>
+                            <Button className="bg-[#F4A153] hover:bg-[#dc914b] hover:text-white text-white" variant="outline">Segunda</Button>
+                            <Button className="bg-[#F4A153] hover:bg-[#dc914b] hover:text-white text-white" variant="outline">Terça</Button>
+                            <Button className="bg-[#F4A153] hover:bg-[#dc914b] hover:text-white text-white" variant="outline">Quarta</Button>
+                            <Button className="bg-[#F4A153] hover:bg-[#dc914b] hover:text-white text-white" variant="outline">Quinta</Button>
+                            <Button className="bg-[#F4A153] hover:bg-[#dc914b] hover:text-white text-white" variant="outline">Sexta</Button>
+                            <Button className="bg-[#F4A153] hover:bg-[#dc914b] hover:text-white text-white" variant="outline">Sábado</Button>
+                            <Button className="bg-[#F4A153] hover:bg-[#dc914b] hover:text-white text-white" variant="outline">Domingo</Button>
                         </ButtonGroup>
                         <div className="md:hidden">
                             <Select>
@@ -86,7 +125,7 @@ function App() {
                 </div>
                 <div className="w-full">
                     <div className="px-3 md:w-9/10 m-auto mt-5 mb-5 md:mb-0">
-                        <VideoTemplate>
+                        <VideoTemplate video={video_ensolarado}>
                             <div className="flex flex-col md:flex-row justify-around md:items-center">
                                 <div className="flex gap-3 justify-around md:justify-start items-center">
                                     {/* <img src={nuvem} alt="Gif de núvem nublada" /> */}
@@ -109,7 +148,7 @@ function App() {
                             {/* TABELA */}
                             <div className="md:col-span-3 md:row-span-6 order-1">
                                 <div className="flex justify-center">
-                                    <div className="backdrop-blur-md bg-white/10 border border-white/20 rounded-xl shadow-lg p-3 w-full md:max-w-80">
+                                    <div className="backdrop-blur-md bg-white/10 border border-white/20 rounded-xl shadow-lg p-3 w-full">
                                         <Table>
                                             <TableHeader>
                                                 <TableRow>
@@ -173,6 +212,7 @@ function App() {
                 <div id="newsletter" className="w-full py-5 px-3 md:px-0">
                     <Newsletter />
                 </div>
+                <Toaster richColors position="top-center" />
             </PageTemplate>   
         </>
     );

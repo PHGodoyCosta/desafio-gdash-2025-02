@@ -1,4 +1,4 @@
-import avatar from '../../assets/avatar/normal_avatar.png'
+import avatar from '../../assets/avatar/avatar_senhora_do_tempo.png'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Send } from 'lucide-react'
