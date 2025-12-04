@@ -1,4 +1,4 @@
-import { IsString, IsStrongPassword, IsUUID, IsEmail } from "class-validator";
+import { IsString, IsStrongPassword, IsUUID, IsEmail, IsOptional, MaxLength } from "class-validator";
 
 export class UserDTO {
     @IsUUID()
@@ -20,11 +20,39 @@ export class UserDTO {
 
 export class CreateUserDTO {
     @IsString()
-    name: string;
-
     @IsEmail()
     email: string;
 
     @IsString()
-    password: string;
+    @MaxLength(100)
+    name: string;
+
+    @IsString()
+    @IsStrongPassword({
+        minLength: 8,
+        minUppercase: 1,
+        minNumbers: 1
+    },{
+        message: "Senha Fraca! Tente novamente!"
+    })
+    password: string;  
+}
+
+export class UpdaterUserDTO {
+    @IsString()
+    @IsOptional()
+    name: string
+
+    @IsEmail()
+    @IsOptional()
+    email: string
+
+    @IsString()
+    @IsStrongPassword({
+        minLength: 8,
+        minUppercase: 1,
+        minNumbers: 1
+    })
+    @IsOptional()
+    password: string
 }

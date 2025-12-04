@@ -1,23 +1,10 @@
 import { IsArray, IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator'
 import { Type } from 'class-transformer';
 
-export class HourlyUnitsDTO {
-    @IsString()
-    time: string;
-
-    @IsString()
-    temperature_2m: string;
-}
-
-export class HourlyDTO {
+export class DailyDTO {
     @IsArray()
     @IsString({ each: true })
     time: string[];
-
-    @IsArray()
-    @IsOptional()
-    @IsNumber({}, { each: true })
-    temperature_2m: number[]
 
     @IsArray()
     @IsOptional()
@@ -42,12 +29,7 @@ export class HourlyDTO {
     @IsArray()
     @IsOptional()
     @IsNumber({}, { each: true })
-    preciptation_probability: number[]
-
-    @IsArray()
-    @IsOptional()
-    @IsNumber({}, { each: true })
-    direct_radiation: number[]
+    precipitation_probability: number[]
 
     @IsArray()
     @IsOptional()
@@ -55,7 +37,7 @@ export class HourlyDTO {
     shortwave_radiation: number[]
 }
 
-export class WeatherLogsDTO {
+export class WeatherDayLogsDTO {
     @IsNumber()
     latitude: number
 
@@ -66,11 +48,19 @@ export class WeatherLogsDTO {
     @IsOptional()
     city: string
 
-    @ValidateNested({ each: true })
-    @Type(() => HourlyUnitsDTO)
-    hourly_units: HourlyUnitsDTO
+    @IsString()
+    churrascometro: string
+
+    @IsString()
+    insight: string
+
+    @IsString()
+    insightEnergia: string
+
+    @IsString()
+    energiaProduzida: string
 
     @ValidateNested({ each: true })
-    @Type(() => HourlyDTO)
-    hourly: HourlyDTO
+    @Type(() => DailyDTO)
+    daily: DailyDTO
 }

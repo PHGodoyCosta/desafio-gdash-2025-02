@@ -2,8 +2,9 @@ import { Controller, Post, Body, UseGuards, Request, Get, UnauthorizedException,
 import { WeatherLogsDTO } from './dto/weather.dto';
 import { AuthGuard } from '../auth/auth.guard';
 import { WeatherService } from './weather.service';
+import { WeatherDayLogsDTO } from './dto/weatherDay.dto';
 
-@Controller('api/weather')
+@Controller('weather')
 export class WeatherController {
     constructor (private readonly weatherService: WeatherService) {}
 
@@ -11,7 +12,7 @@ export class WeatherController {
     @Post("logs")
     register_logs(@Body() logs: WeatherLogsDTO, @Request() req) {
         if (req.user.type != "admin") {
-            throw new UnauthorizedException("Apenas admin podem acessar essa rota")
+            throw new UnauthorizedException("Apenas admin podem inserir dados!")
         }
     
         console.log(logs)
@@ -22,6 +23,23 @@ export class WeatherController {
     @Get("logs")
     get_logs() {
         return this.weatherService.getLogs()
+    }
+
+    @UseGuards(AuthGuard)
+    @Post("day/logs")
+    register_day_logs(@Body() logs: WeatherDayLogsDTO, @Request() req) {
+        if (req.user.type != "admin") {
+            throw new UnauthorizedException("Apenas admin podem inserir dados!")
+        }
+    
+        console.log(logs)
+
+        return this.weatherService.insertDayLogs(logs)
+    }
+
+    @Get("day/logs")
+    get_day_logs() {
+        return this.weatherService.getDayLogs()
     }
 
     @Get("export.xlsx")

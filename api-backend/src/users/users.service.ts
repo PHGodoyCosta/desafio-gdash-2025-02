@@ -44,7 +44,12 @@ export class UsersService {
             throw new HttpException("Usuário não encontrado", 404)
         }
 
-        return user
+        return {
+            hash: user.hash,
+            username: user.name,
+            email: user.email,
+            type: user.type
+        }
     }
 
     async findUserByEmail(email: string) {
@@ -73,7 +78,7 @@ export class UsersService {
         try {
             await this.userModel.updateOne(
                 { hash: hash },
-                { name: name }
+                { $set: { name: name } }
             )
 
             return {
@@ -83,6 +88,59 @@ export class UsersService {
         } catch {
             throw new HttpException("Não consegui renomear o usuário", 500)
         }
+    }
+
+    async updateEmail(hash: string, email: string) {
+        try {
+            await this.userModel.updateOne(
+                { hash: hash },
+                { $set: { email: email } }
+            )
+
+            return {
+                email: email,
+                hash: hash
+            }
+        } catch {
+            throw new HttpException("Não consegui fazer o update no Email", 500)
+        }
+    }
+
+    async updatePassword(hash: string, password: string) {
+        try {
+            await this.userModel.updateOne(
+                { hash: hash },
+                { $set: { password: bcryptHash(password, 10) } }
+            )
+
+            return {
+                status: "ok",
+                hash: hash
+            }
+        } catch {
+            throw new HttpException("Não consegui fazer o update da Senha", 500)
+        }
+    }
+
+    async updateUser(req: any, hash: string, name: string = "", email: string = "", password: string = "") {
+        //console.log(`${name} | ${email} | ${password}`)
+        if (name) {
+            await this.rename(hash, name)
+        }
+
+        if (email) {
+            if (!await this.isRegistered(email) && req.user.email != email) {
+                await this.updateEmail(hash, email)
+            } else {
+                throw new HttpException("Esse email já está registrado!", 401)
+            }
+        }
+
+        if (password) {
+            await this.updatePassword(hash, password)
+        }
+
+        return {"status": "OK"}
     }
 
     async isRegistered(email: string) {

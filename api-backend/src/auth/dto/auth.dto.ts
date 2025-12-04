@@ -18,6 +18,8 @@ export class AuthLoginDTO {
         minLength: 8,
         minUppercase: 1,
         minNumbers: 1
+    },{
+        message: "Sua senha deve ter no mínimo: 8 caracteres, 1 letra maiúscula, 1 número!"
     })
     password: string;    
 }
