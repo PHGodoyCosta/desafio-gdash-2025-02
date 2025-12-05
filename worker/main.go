@@ -3,23 +3,34 @@ package main
 import (
 	"fmt"
 	"log"
-
+	"github.com/joho/godotenv"
+	"os"
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
-const queueName = "worker"
-const rabbitServer = "amqp://guest:guest@localhost:5672/"
-
 func main() {
-	conn, err := amqp.Dial(rabbitServer)
+	err := godotenv.Load()
 	if err != nil {
-		log.Fatalf("Erro ao conectar ao RabbitMQ: %v", err)
+		log.Fatalf("Erro ao carregar .env: %v", err)
+	}
+
+	go consumer(os.Getenv("QUEUE_LOG_NAME"), "log")
+	go consumer(os.Getenv("QUEUE_DAILY_NAME"), "daily")
+
+	//Para não parar de rodar
+	select {}
+}
+
+func consumer(queueName string, queueType string) {
+	conn, err := amqp.Dial(os.Getenv(("RABBIT_URL")))
+	if err != nil {
+		log.Fatalf("[Error] Erro ao conectar ao RabbitMQ: %v", err)
 	}
 	defer conn.Close()
 
 	ch, err := conn.Channel()
 	if err != nil {
-		log.Fatalf("Erro ao abrir canal: %v", err)
+		log.Fatalf("[Error] Erro ao abrir canal: %v", err)
 	}
 	defer ch.Close()
 
@@ -33,7 +44,7 @@ func main() {
 	)
 
 	if err != nil {
-		log.Fatalf("Erro ao declarar fila: %v", err)
+		log.Fatalf("[Error] Erro ao declarar fila: %v", err)
 	}
 
 	msgs, err := ch.Consume(
@@ -46,14 +57,21 @@ func main() {
 		nil,
 	)
 	if err != nil {
-		log.Fatalf("Erro ao iniciar consumo: %v", err)
+		log.Fatalf("[Error] Erro ao iniciar consumo: %v", err)
 	}
 
-	fmt.Println("Esperando resultados do collector...")
+	fmt.Printf("[RabbitMQ] Esperando resultados do %s...\n", queueName)
 
 	// Loop principal
 	for msg := range msgs {
-		Worker(string(msg.Body))
+		switch queueType {
+			case "log":
+				fmt.Println("[Log] WeatherLog Recebido")
+				Worker(string(msg.Body), "log")
+			case "daily":
+				fmt.Println("[Log] WeatherDay Recebido")
+				Worker(string(msg.Body), "daily")
+		}
 
 		msg.Ack(false)
 	}
