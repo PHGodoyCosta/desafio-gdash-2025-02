@@ -7,6 +7,8 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { WeatherModule } from './weather/weather.module';
 import { RickAndMortyModule } from './rick-and-morty/rick-and-morty.module';
+import { SenhoraDoTempoModule } from './senhora-do-tempo/senhora-do-tempo.module';
+import { NewsletterModule } from './newsletter/newsletter.module';
 
 @Module({
     imports: [
@@ -34,7 +36,11 @@ import { RickAndMortyModule } from './rick-and-morty/rick-and-morty.module';
 
         UsersModule,
 
-        RickAndMortyModule
+        RickAndMortyModule,
+
+        SenhoraDoTempoModule,
+
+        NewsletterModule
     ],
     controllers: [AppController],
     providers: [AppService],
