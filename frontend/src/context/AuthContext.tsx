@@ -1,14 +1,21 @@
 import { createContext, useState } from "react";
+import { jwtDecode } from "jwt-decode";
 
 interface AuthContextProps {
     user: UserProps | null
-    isAuthenticated: (type?: "user" | "admin" | undefined) => Promise<boolean>
+    isAuthenticated: (type?: "user" | "admin" | undefined) => Promise<IsAutenticatedReturn>
     login: (email: string, password: string) => Promise<LoginReturnType>
     deleteUser: (hash: string) => Promise<LoginReturnType>
     update: (name?: string, email?: string, password?: string) => Promise<LoginReturnType>,
     createUser: (name: string, email: string, password: string) => Promise<LoginReturnType>
     logout: () => void,
-    fetchUser: (hash?: string) => void
+    fetchUser: (hash?: string) => void,
+    isAdmin: boolean | null
+}
+
+export type IsAutenticatedReturn = {
+    auth: boolean,
+    isAdmin: boolean
 }
 
 export type UserProps = {
@@ -29,6 +36,7 @@ export const AuthContext = createContext<AuthContextProps | null>(null);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const apiUrl = import.meta.env.VITE_API_URL
     const [user, setUser] = useState<UserProps | null>(null);
+    const [isAdmin, setIsAdmin] = useState<boolean | null>(null)
 
     function wait(ms: number) {
         return new Promise(resolve => setTimeout(resolve, ms));
@@ -97,10 +105,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         }
     }
 
-    const isAuthenticated = async (type?: "user" | "admin" | undefined) => {
+    const isAuthenticated = async (): Promise<IsAutenticatedReturn> => {
         try {
             if (user) {
-                return true
+                if (user.type == "admin") {
+                    return {
+                        auth: true,
+                        isAdmin: true
+                    }
+                }
+                
+                return {
+                    auth: true,
+                    isAdmin: false
+                }
             }
 
             const res = await fetch(`${apiUrl}/api/users/me`, {
@@ -111,21 +129,24 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             const data = await res.json()
 
             if (res.ok) {
-                if (type == "admin") {
-                    if (data.type == "admin") {
-                        return true
-                    }
-
-                    return false
+                setIsAdmin(data.type == "admin" ? true : false)
+                setUser(data)
+                return {
+                    auth: true,
+                    isAdmin: data.type == "admin" ? true : false
                 }
-
-                return true
             }
 
-            return false
+            return {
+                auth: false,
+                isAdmin: false
+            }
 
         } catch {
-            return false
+            return {
+                auth: false,
+                isAdmin: false
+            }
         }
     }
 
@@ -152,7 +173,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         }
 
         if (res.ok) {
-            setUser(await res.json())
+            const data = await res.json()
+            setUser(data)
+            setIsAdmin(data.type == "admin" ? true : false)
         }
     };
 
@@ -204,6 +227,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         if (res.ok) {
             console.log(data)
             fetchUser()
+            const decodeToken = jwtDecode(data.token)
+            if (decodeToken.type == "admin") {
+                setIsAdmin(true)
+            } else {
+                setIsAdmin(false)
+            }
             return {
                 statusCode: 200,
                 message: "Logado!"
@@ -229,7 +258,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             logout,
             update,
             createUser,
-            fetchUser
+            fetchUser,
+            isAdmin
         }}>
             {children}
         </AuthContext.Provider>

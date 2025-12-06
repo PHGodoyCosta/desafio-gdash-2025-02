@@ -49,10 +49,10 @@ function CreateAccountPage() {
             return setIsLogging(false)
         }
 
-        const response: LoginReturnType = await auth?.createUser(nome, email, password)
+        const response: LoginReturnType | undefined = await auth?.createUser(nome, email, password)
 
-        if (response.statusCode != 200) {
-            setAlertMessage(response.message)
+        if (response?.statusCode != 200) {
+            setAlertMessage(response?.message ?? "")
             return setIsLogging(false)
         }
 

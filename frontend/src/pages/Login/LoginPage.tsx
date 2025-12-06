@@ -37,9 +37,9 @@ function LoginPage() {
     const handleLogin = async(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         setIsLogging(true)
-        const response: LoginReturnType = await auth?.login(email, password)
-        if (response.statusCode != 200) {
-            setAlertMessage(response.message)
+        const response: LoginReturnType | undefined = await auth?.login(email, password)
+        if (response?.statusCode != 200) {
+            setAlertMessage(response?.message ?? "")
             setIsLogging(false)
         } else {
             await wait(3000)
@@ -75,7 +75,7 @@ function LoginPage() {
                                     )}
                                     <Field>
                                         <FieldLabel htmlFor="username">Email</FieldLabel>
-                                        <Input onChange={(e) => setEmail(e.target.value)} id="email" type="email" placeholder="Digite seu Email" />
+                                        <Input value={email} onChange={(e) => setEmail(e.target.value)} id="email" type="email" placeholder="Digite seu Email" />
                                     </Field>
                                     <Field>
                                         <FieldLabel htmlFor="password">Senha</FieldLabel>

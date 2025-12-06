@@ -16,9 +16,12 @@ function ProtectedRoute({ children, route = "/login", type = "user" }: Protected
 
     useEffect(() => {
         const check = async () => {
-            const ok = await auth!.isAuthenticated(type);
-            console.log("Is autenticated em ProtectedRoute")
-            setAllowed(ok);
+            const verification = await auth!.isAuthenticated();
+            if (type == "admin" && !verification.isAdmin) {
+                return setLoading(false);
+            }
+
+            setAllowed(verification.auth);
             setLoading(false);
         };
         check();
@@ -31,7 +34,7 @@ function ProtectedRoute({ children, route = "/login", type = "user" }: Protected
     }
 
     if (!allowed) {
-        console.log("Usuário não autenticado!")
+        console.log("[Log] Usuário não autenticado!")
         navigate(route)
     }
 

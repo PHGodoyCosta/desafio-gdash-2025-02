@@ -26,19 +26,22 @@ import { AuthContext, type LoginReturnType} from "@/context/AuthContext";
 import { useEffect, useContext, useState } from "react";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { toast, Toaster } from "sonner";
+import styles from '../Login/LoginPage.module.css'
 
 function Dashboard() {
     const navigate = useNavigate()
     const auth = useContext(AuthContext)
-
+    const apiUrl = import.meta.env.VITE_API_URL
     const [nome, setNome] = useState<string>(auth?.user?.username ?? "")
     const [email, setEmail] = useState<string>(auth?.user?.email ?? "")
     const [password, setPassword] = useState<string>("")
     const [isEdited, setIsEdited] = useState<boolean>(false)
+    const [isNewsletterSubscribed, setIsNewslleterSubscribed] = useState<string | null>(null)
     const [alert, setAlert] = useState<string>("")
 
     useEffect(() => {
         auth?.fetchUser()
+        checkSubscriptionOnNewsletter()
     }, [])
 
     useEffect(() => {
@@ -53,7 +56,7 @@ function Dashboard() {
     }, [nome, email, password])
  
     const saveNewData = async() => {
-        const update: LoginReturnType = await auth?.update(nome, auth.user?.email == email ? undefined : email, password)
+        const update: LoginReturnType | undefined = await auth?.update(nome, auth.user?.email == email ? undefined : email, password)
 
         if (update?.statusCode == 200) {
             toast.success("Dados atualizados com sucesso!")
@@ -61,7 +64,7 @@ function Dashboard() {
                 window.location.reload()
             }, 2000)
         } else {
-            setAlert(update?.message)
+            setAlert(update?.message ?? "")
         }
     }
 
@@ -89,11 +92,63 @@ function Dashboard() {
        
     }
 
+    const checkSubscriptionOnNewsletter = async() => {
+        const res = await fetch(`${apiUrl}/api/newsletter/status`, {
+            method: "GET",
+            credentials: "include"
+        })
+
+        if (!res.ok) {
+            return setIsNewslleterSubscribed("error")
+        }
+
+        const data = await res.json()
+
+        setIsNewslleterSubscribed(String(data.status))
+    }
+
+    const assinarNewsletter = async() => {
+        const req = await fetch(`${apiUrl}/api/newsletter`, {
+            method: "POST",
+            credentials: "include",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                email: String(auth?.user?.email),
+                status: isNewsletterSubscribed ? isNewsletterSubscribed : undefined
+            })
+        })
+
+        if (!req.ok) {
+            return toast.error("Não foi possível realizar sua inscrição!")
+        }
+
+        toast.success("Pronto! Confirme o seu email para finalizar a inscrição!")
+        setTimeout(() => {
+            window.location.reload()
+        }, 2000)
+    }
+
+    const cancelarNewsletter = async() => {
+        const req = await fetch(`${apiUrl}/api/newsletter/cancel`, {
+            method: "POST",
+            credentials: "include"
+        })
+
+        if (!req.ok) {
+            return toast.error("Não foi possível cancelar a assinatura!")
+        }
+
+        toast.success("Pronto! Assinatura cancelada!")
+        setTimeout(() => {
+            window.location.reload()
+        }, 2000)
+    }
+
     return (
         <>
             <PageTemplate>
                 <div className="relative mb-30 lg:mb-40 xl:mb-10">
-                    <div style={{background: "linear-gradient(90deg,rgba(80, 227, 194, 1) 0%, rgba(67, 220, 172, 1) 43%, rgba(84, 175, 197, 1) 100%)"}} className="w-full mt-1 min-h-60 max-h-70 object-cover"></div>
+                    <div style={{background: "linear-gradient(90deg,rgba(80, 227, 194, 1) 0%, rgba(67, 220, 172, 1) 43%, rgba(84, 175, 197, 1) 100%)"}} className={`${styles.background_login} w-full mt-1 min-h-60 max-h-70 object-cover`}></div>
                     <div className="flex w-full justify-center lg:block lg:w-auto lg:ml-20 absolute top-40 lg:top-40">
                         <div className="flex flex-col gap-1 items-center">
                             <img className="rounded-4xl border-4 w-30 h-30 lg:w-50 lg:h-50 object-cover"src={default_icon} alt="Icon de Avatar do usuário" />
@@ -148,23 +203,33 @@ function Dashboard() {
                     <Separator className="my-5 h-0.5 bg-black md:hidden" />
                     <div className="max-w-100">
                         <h2 className="font-bold text-xl sm:text-2xl mb-2">Newsletter</h2>
-                        <AlertDialog>
-                            <AlertDialogTrigger asChild>
-                                <Button className="w-min" type="button" variant={"destructive"}>Cancelar Assinatura</Button>
-                            </AlertDialogTrigger>
-                            <AlertDialogContent>
-                                <AlertDialogHeader>
-                                    <AlertDialogTitle>Você tem certeza?</AlertDialogTitle>
-                                    <AlertDialogDescription>
-                                        Isso cancelará sua assinatura na newsletter e você não receberá mais informações no seu email.
-                                    </AlertDialogDescription>
-                                </AlertDialogHeader>
-                                <AlertDialogFooter>
-                                    <AlertDialogCancel>Voltar</AlertDialogCancel>
-                                    <AlertDialogAction>Cancelar Assinatura</AlertDialogAction>
-                                </AlertDialogFooter>
-                            </AlertDialogContent>
-                        </AlertDialog>
+                        {isNewsletterSubscribed != null && (
+                            <>
+                                {isNewsletterSubscribed == "ok" ? (
+                                    <AlertDialog>
+                                        <AlertDialogTrigger asChild>
+                                            <Button className="w-min" type="button" variant={"destructive"}>Cancelar Assinatura</Button>
+                                        </AlertDialogTrigger>
+                                        <AlertDialogContent>
+                                            <AlertDialogHeader>
+                                                <AlertDialogTitle>Você tem certeza?</AlertDialogTitle>
+                                                <AlertDialogDescription>
+                                                    Isso cancelará sua assinatura na newsletter e você não receberá mais informações no seu email.
+                                                </AlertDialogDescription>
+                                            </AlertDialogHeader>
+                                            <AlertDialogFooter>
+                                                <AlertDialogCancel>Voltar</AlertDialogCancel>
+                                                <AlertDialogAction onClick={cancelarNewsletter} >Cancelar Assinatura</AlertDialogAction>
+                                            </AlertDialogFooter>
+                                        </AlertDialogContent>
+                                    </AlertDialog>
+                                ) : isNewsletterSubscribed == "confirm" ? (
+                                    <Button onClick={assinarNewsletter} variant="outline" className="w-min" type="button">Não recebeu o email? Tente novamente</Button>
+                                ) : (
+                                    <Button onClick={assinarNewsletter} className="w-min" type="button">Assine aqui</Button>
+                                )}
+                            </>
+                        )}
                         <h2 className="font-bold text-xl sm:text-2xl mb-2 mt-5">Ações</h2>
                         <div className="mb-3 mt-3">
                             <AlertDialog>
