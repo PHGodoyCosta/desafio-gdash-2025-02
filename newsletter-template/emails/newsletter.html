@@ -1,0 +1,191 @@
+---
+bodyClass: bg-slate-50
+preheader: Newsletter Template
+---
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+<x-main>
+    <div class="w-300 mt-3 rounded-xl shadow-xl bg-white font-[Inter]">
+        <main class="px-3 pt-5">
+            <h1 class="text-3xl text-center">Informe Diário</h1>
+            <p class="text-[18px] text-center">Olha como está o tempo em Nova Alvorada do Sul hoje!</p>
+            <div class="w-full">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td align="center" style="padding-top:8px">
+                        <img
+                            src="cid:avatar"
+                            alt="Avatar da GDASH fazendo joinha"
+                            width="400"
+                            style="display:block;max-width:100%;border:0"
+                        />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="my-4 text-center">
+                <span class="text-xl mr-20">Nova Alvorada do Sul - MS</span>
+                <span class="text-xl">{{data}}</span>
+            </div>
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:16px">
+                <tr>
+                    <td align="center">
+
+                    <!-- Linha 1 -->
+                    <table role="presentation" cellpadding="0" cellspacing="0">
+                        <tr>
+
+                        <!-- Card -->
+                        <td style="padding:6px">
+                            <table role="presentation" cellpadding="0" cellspacing="0" style="background:#F4A153;border-radius:12px">
+                            <tr>
+                                <td align="center" style="padding:12px;color:#ffffff;font-family:Arial,Helvetica,sans-serif;font-weight:bold">
+                                Temperatura média
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="center" style="padding:6px 12px;color:#ffffff;font-size:20px;font-weight:bold">
+                                {{temperature}}°
+                                </td>
+                            </tr>
+                            </table>
+                        </td>
+
+                        <!-- Card -->
+                        <td style="padding:6px">
+                            <table role="presentation" cellpadding="0" cellspacing="0" style="background:#F4A153;border-radius:12px">
+                            <tr>
+                                <td align="center" style="padding:12px;color:#ffffff;font-weight:bold">
+                                Chance de chuva
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="center" style="padding:6px 12px;color:#ffffff;font-size:20px;font-weight:bold">
+                                {{preciptation_probability}}%
+                                </td>
+                            </tr>
+                            </table>
+                        </td>
+
+                        <!-- Card -->
+                        <td style="padding:6px">
+                            <table role="presentation" cellpadding="0" cellspacing="0" style="background:#F4A153;border-radius:12px">
+                            <tr>
+                                <td align="center" style="padding:12px;color:#ffffff;font-weight:bold">
+                                Umidade do ar
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="center" style="padding:6px 12px;color:#ffffff;font-size:20px;font-weight:bold">
+                                {{humidity}}%
+                                </td>
+                            </tr>
+                            </table>
+                        </td>
+
+                        </tr>
+                    </table>
+
+                    <!-- Linha 2 -->
+                    <table role="presentation" cellpadding="0" cellspacing="0">
+                        <tr>
+
+                        <!-- Energia -->
+                        <td style="padding:6px">
+                            <table role="presentation" cellpadding="0" cellspacing="0" style="background:#F4A153;border-radius:12px">
+                            <tr>
+                                <td align="center" style="padding:12px;color:#ffffff;font-weight:bold">
+                                Produção de Energia
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="center" style="padding:6px 12px;color:#ffffff;font-size:20px;font-weight:bold">
+                                {{energiaProduzida}} kWh
+                                </td>
+                            </tr>
+                            </table>
+                        </td>
+
+                        <!-- Vento -->
+                        <td style="padding:6px">
+                            <table role="presentation" cellpadding="0" cellspacing="0" style="background:#F4A153;border-radius:12px">
+                            <tr>
+                                <td align="center" style="padding:12px;color:#ffffff;font-weight:bold">
+                                Velocidade do vento
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="center" style="padding:6px 12px;color:#ffffff;font-size:20px;font-weight:bold">
+                                {{wind_speed}} Km/h
+                                </td>
+                            </tr>
+                            </table>
+                        </td>
+
+                        </tr>
+                    </table>
+
+                    </td>
+                </tr>
+            </table>
+
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:20px">
+                <tr>
+                    <td align="center">
+
+                    <!-- Card 1 -->
+                    <table role="presentation" width="500" cellpadding="0" cellspacing="0"
+                            style="background-color:#273A57;border-radius:12px;margin-bottom:8px">
+                        <tr>
+                        <td style="padding:16px;
+                                    color:#ffffff;
+                                    font-weight:bold;
+                                    font-family:Arial,Helvetica,sans-serif;">
+                            Churrascometro: {{churrascometro}}
+                        </td>
+                        </tr>
+                    </table>
+
+                    <!-- Card 2 -->
+                    <table role="presentation" width="500" cellpadding="0" cellspacing="0"
+                            style="background-color:#273A57;border-radius:12px;margin-bottom:8px">
+                        <tr>
+                        <td style="padding:16px;
+                                    color:#ffffff;
+                                    font-weight:bold;
+                                    font-family:Arial,Helvetica,sans-serif;">
+                            Insight Energia: {{insightEnergia}}
+                        </td>
+                        </tr>
+                    </table>
+
+                    <!-- Card 3 -->
+                    <table role="presentation" width="500" cellpadding="0" cellspacing="0"
+                            style="background-color:#273A57;border-radius:12px">
+                        <tr>
+                        <td style="padding:16px;
+                                    color:#ffffff;
+                                    font-weight:bold;
+                                    font-family:Arial,Helvetica,sans-serif;">
+                            Insight: {{insight}}
+                        </td>
+                        </tr>
+                    </table>
+
+                    </td>
+                </tr>
+                </table>
+
+            
+            <p class=" text-gray-500">
+                <span>Não quer mais receber emails? Cancele a sua assinatura </span>
+                <a class="text-gray-500" href="https://desafio-gdash-pedrogodoy.online/dashboard">aqui</a>.
+            </p>
+        </main>
+        <footer class="bg-[#273A57] p-3">
+            <p class="text-white text-xl text-center mt-10 font-bold">2025 - Desafio GDASH - Pedro Godoy</p>
+        </footer>
+    </div>
+</x-main>

@@ -1,0 +1,41 @@
+---
+bodyClass: bg-slate-50
+preheader: Newsletter Template
+---
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+<x-main>
+    
+    <div class="w-300 mt-3 rounded-xl shadow-xl bg-white font-[Inter]">
+        <main class="px-3 pt-5 pb-5">
+            <h1 class="text-3xl text-center">Você está a um passo de se inscrever!</h1>
+            <p class="text-[18px] text-center">Confirme a inscrição na newsletter clickando no botão abaixo</p>
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td align="center" style="padding-top:8px">
+                    <img
+                        src="cid:avatar"
+                        alt="Avatar da GDASH fazendo joinha"
+                        width="400"
+                        style="display:block;max-width:100%;border:0"
+                    />
+                    </td>
+                </tr>
+            </table>
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td align="center" style="padding-top:8px">
+                        <a href="{{confirm}}" class="shadow w-min my-5 bg-[#F4A153] text-white p-4 decoration-0 no-underline rounded-xl">
+                            <span>Confirmar Inscrição</span>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </main>
+        <footer class="bg-[#273A57] p-3 mt-5">
+            <p class="text-white text-xl text-center mt-10 font-bold">2025 - Desafio GDASH - Pedro Godoy</p>
+        </footer>
+    </div>
+</x-main>
