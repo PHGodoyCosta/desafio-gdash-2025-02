@@ -14,16 +14,14 @@ type DataLineWeatherProps = {
 }
 
 export function DataLineWeather({temperature, umidade, rain, wind, energia}: DataLineWeatherProps) {
-    const iconSize = 25
-
     return (
         <>
-            <div className="bg-[#F4A153] p-5 flex gap-3 rounded-[5px] text-white text-md">
+            <div className="bg-[#F4A153] py-5 px-2 md:p-5 flex gap-1 md:gap-3 rounded-[5px] text-white text-sm justify-around">
                 <Tooltip>
                     <TooltipTrigger asChild>
                         <div className="flex items-center gap-1">
-                            <Thermometer size={iconSize} />
-                            <span>{temperature}°</span>
+                            <Thermometer className="size-4 lg:size-6" />
+                            <span>{Math.round(temperature)}°</span>
                         </div>
                     </TooltipTrigger>
                     <TooltipContent >
@@ -33,8 +31,8 @@ export function DataLineWeather({temperature, umidade, rain, wind, energia}: Dat
                 <Tooltip>
                     <TooltipTrigger asChild>
                         <div className="flex items-center gap-1">
-                            <Cloud size={iconSize} />
-                            <span>{rain}%</span>
+                            <Cloud className="size-4 lg:size-6" />
+                            <span>{Math.round(rain)}%</span>
                         </div>
                     </TooltipTrigger>
                     <TooltipContent >
@@ -44,8 +42,8 @@ export function DataLineWeather({temperature, umidade, rain, wind, energia}: Dat
                 <Tooltip>
                     <TooltipTrigger asChild>
                         <div className="flex items-center gap-1">
-                            <Droplet size={iconSize} />
-                            <span>{umidade}%</span>
+                            <Droplet className="size-4 lg:size-6" />
+                            <span>{Math.round(umidade)}%</span>
                         </div>
                     </TooltipTrigger>
                     <TooltipContent >
@@ -55,19 +53,19 @@ export function DataLineWeather({temperature, umidade, rain, wind, energia}: Dat
                 <Tooltip>
                     <TooltipTrigger asChild>
                         <div className="flex items-center gap-1">
-                            <Zap size={iconSize} />
-                            <span>{energia}kWh</span>
+                            <Zap className="size-4 lg:size-6" />
+                            <span>{Math.round(energia)} kWh</span>
                         </div>
                     </TooltipTrigger>
                     <TooltipContent >
-                        <p>Energia produzida</p>
+                        <p>Produção de Energia Estimada</p>
                     </TooltipContent>
                 </Tooltip>
                 <Tooltip>
                     <TooltipTrigger asChild>
                         <div className="flex items-center gap-1">
-                            <Wind size={iconSize} />
-                            <span>{wind}Km/h</span>
+                            <Wind className="size-4 lg:size-6" />
+                            <span>{Math.round(wind)} Km/h</span>
                         </div>
                     </TooltipTrigger>
                     <TooltipContent >

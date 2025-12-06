@@ -4,7 +4,7 @@ import {
     TooltipTrigger,
 } from "@/components/ui/tooltip"
 
-import { Zap, Lightbulb } from 'lucide-react'
+import { Zap, Beef } from 'lucide-react'
 
 type InsightType = {
     type: "sensation" | "energy",
@@ -22,18 +22,18 @@ function Insight({ type, content }: InsightType) {
                         <TooltipTrigger asChild>
                             {type == "sensation" ? (
                                 <>
-                                    <Lightbulb size={iconSize + 5} />
+                                    <Beef className="min-w-8 size-6" size={iconSize} />
                                 </>
                             ) : (
                                 <>
-                                    <Zap size={iconSize} />
+                                    <Zap className="min-w-8 size-6" size={iconSize} />
                                 </>
                             )}
                         </TooltipTrigger>
                         <TooltipContent >
                             {type == "sensation" ? (
                                 <>
-                                    <p>Um insight sobre a senação térmica</p>
+                                    <p>Churrascometro: uma métrica de quão bom o tempo está para um churrasco</p>
                                 </>
                             ) : (
                                 <>
