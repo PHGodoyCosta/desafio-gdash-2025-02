@@ -7,6 +7,7 @@ import Personagem from "./pages/Explorar/Personagem/Personagem";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import DashboardAdmin from "./pages/Admin/DashboardAdmin";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import ConfirmRoute from "./components/ProtectedRoute/ConfirmRoute";
 
 const router = createBrowserRouter([
     {
@@ -43,6 +44,14 @@ const router = createBrowserRouter([
             <ProtectedRoute type="admin">
                 <DashboardAdmin />
             </ProtectedRoute>
+        )
+    },
+    {
+        path: "/confirm",
+        element: (
+            <ConfirmRoute>
+                <Dashboard />
+            </ConfirmRoute>
         )
     }
 ])

@@ -17,7 +17,6 @@ import { AuthContext } from "@/context/AuthContext";
 
 function PageTemplate({ children }: PropsWithChildren) {
     const [isLogged, setIsLogged] = useState<boolean | null>(null)
-    const [typeUser, setTypeUser] = useState<"admin" | "user" | null>(null)
     const auth = useContext(AuthContext);
 
     useEffect(() => {
@@ -25,8 +24,8 @@ function PageTemplate({ children }: PropsWithChildren) {
             if (auth?.user) {
                 setIsLogged(true);
             } else {
-                const ok = await auth?.isAuthenticated()
-                setIsLogged(ok ?? false)
+                const verification = await auth?.isAuthenticated()
+                setIsLogged(verification?.auth ?? false)
             }
         }
 
@@ -57,9 +56,14 @@ function PageTemplate({ children }: PropsWithChildren) {
                                     <a href="/explorar">Explorar</a>
                                 </NavigationMenuLink>
                             </NavigationMenuItem>
-                            {typeUser && (
+                            <NavigationMenuItem>
+                                <NavigationMenuLink asChild>
+                                    <a href="/#senhora-do-tempo">Senhora do Tempo</a>
+                                </NavigationMenuLink>
+                            </NavigationMenuItem>
+                            {isLogged != null && (
                                 <>
-                                    {typeUser == "admin" && (
+                                    {auth?.isAdmin && (
                                         <>
                                             <NavigationMenuItem>
                                                 <NavigationMenuLink asChild>
@@ -68,15 +72,6 @@ function PageTemplate({ children }: PropsWithChildren) {
                                             </NavigationMenuItem>
                                         </>
                                     )}
-                                </>
-                            )}
-                            <NavigationMenuItem>
-                                <NavigationMenuLink asChild>
-                                    <a href="/#senhora-do-tempo">Senhora do Tempo</a>
-                                </NavigationMenuLink>
-                            </NavigationMenuItem>
-                            {isLogged != null && (
-                                <>
                                     {isLogged ? (
                                         <>
                                             <a href="/dashboard" className="border rounded-[5px] p-2">
@@ -109,6 +104,9 @@ function PageTemplate({ children }: PropsWithChildren) {
                                             <a href="/#senhora-do-tempo" className="hover:text-brand-primary">Senhora do Tempo</a>
                                             {isLogged != null && (
                                                 <>
+                                                    {auth?.isAdmin && (
+                                                        <a href="/admin/dashboard" className="hover:text-brand-primary">Admin</a>
+                                                    )}
                                                     {isLogged ? (
                                                         <>
                                                             <a href="/dashboard" className="border rounded-[5px] p-2">
@@ -163,6 +161,13 @@ function PageTemplate({ children }: PropsWithChildren) {
                                 </NavigationMenuItem>
                                 {isLogged != null && (
                                     <>
+                                        {auth?.isAdmin && (
+                                            <NavigationMenuItem>
+                                                <NavigationMenuLink asChild>
+                                                    <a href="/admin/dashboard">Admin</a>
+                                                </NavigationMenuLink>
+                                            </NavigationMenuItem>
+                                        )}
                                         {isLogged ? (
                                             <>
                                                 <a href="/dashboard" className="border rounded-[5px] p-2">

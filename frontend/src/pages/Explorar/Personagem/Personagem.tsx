@@ -11,32 +11,25 @@ import {
 import { useEffect } from "react"
 import { MoveLeft } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { useNavigate } from "react-router";
 
 
 function Personagem() {
     const { id } = useParams()
+    const navigate = useNavigate()
     const apiUrl = import.meta.env.VITE_API_URL
-    const [result, setResult] = useState<CardProps | null>(null)
-
-    //Upload de dados mockados 
-    // useEffect(() => {
-    //     setResult({
-    //         id: 1,
-    //         name: "Rick Sanches",
-    //         image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCtHWmw91Rx-dcR1c-vcs3NJkWNti-sPB-Bw&s",
-    //         genero: "Masculino",
-    //         origem: "Terra",
-    //         status: "Vivo - Humano",
-    //         ultimoLocal: "Terra",
-    //         primeiroVistoEm: "Planeta dos Ricks"
-    //     })
-    // }, [])
+    const [result, setResult] = useState<CardProps | null | undefined>(undefined)
 
     useEffect(() => {
         fetch(`${apiUrl}/api/rick-and-morty/caracter/${id}`)
         .then(async(data) => {
+            if (!data.ok) {
+                return setResult(null)
+            }
+
             const response = await data.json()
-            setResult({
+
+            return setResult({
                 id: response.id,
                 name: response.name,
                 image: response.image,
@@ -45,7 +38,6 @@ function Personagem() {
                 ultimoLocal: response.location.name,
                 primeiroVistoEm: response.origin.name
             })
-            console.log(response)
         })
         .catch(error => {
             console.error(error)
@@ -114,7 +106,7 @@ function Personagem() {
                     </>
                 ) : (
                     <>
-                        <h1>404</h1>
+                        <h1 className="p-3">Carregando...</h1>
                     </>
                 )}
             </PageTemplate>

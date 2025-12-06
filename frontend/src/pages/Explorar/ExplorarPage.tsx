@@ -6,7 +6,6 @@ import avatar_pensador from '../../assets/avatar/avatar_pensando.png'
 import { useState } from "react"
 import { Card } from "./Components/Card/Card"
 import { Search } from "lucide-react"
-//import { ItemGroup } from "@/components/ui/item"
 import type { CardProps } from "./Components/Card/Card"
 import {
     Pagination,
@@ -16,6 +15,8 @@ import {
 } from "@/components/ui/pagination"
 import { useEffect } from "react"
 import { Spinner } from "@/components/ui/spinner"
+import { motion } from "framer-motion"
+import { Skeleton } from "@/components/ui/skeleton"
 
 function ExplorarPage() {
     const apiOriginUrl = import.meta.env.VITE_API_URL
@@ -92,16 +93,29 @@ function ExplorarPage() {
     return (
         <>
             <PageTemplate>
-                <h1 className="text-center text-3xl font-bold mt-5">Bem vindo ao Espaço Rick and Morty</h1>
-                <p className="text-center">Para demonstrar minhas habilidades no consumo de APIs, criei essa área!<br/>Explore todos os seus personagens favoritos!</p>
-                <img className="m-auto pt-5 pb-3 w-full md:max-w-150" src={avatar} alt="Esse é o avatar da Senhora do tempo acompanhado do Rick And Morty" />
-                <div className="px-3 md:px-0 max-w-120 flex m-auto gap-2 mt-3">
-                    <Input onChange={(e) => setSearchInput(e.target.value)} type="text" placeholder="Busque por um personagem de Rick And Morty" />
-                    <Button type="button" variant="outline">
-                        <Search />
-                        Buscar
-                    </Button>
-                </div>
+                <motion.div
+                initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{
+                    duration: 0.6,
+                    delay: 0.5,
+                    type: "spring",
+                    stiffness: 120,
+                    damping: 20
+                }}
+                >
+
+                    <h1 className="text-center text-3xl font-bold mt-5">Bem vindo ao Espaço Rick and Morty</h1>
+                    <p className="text-center">Para demonstrar minhas habilidades no consumo de APIs, criei essa área!<br/>Explore todos os seus personagens favoritos!</p>
+                    <img className="m-auto pt-5 pb-3 w-full md:max-w-150" src={avatar} alt="Esse é o avatar da Senhora do tempo acompanhado do Rick And Morty" />
+                    <div className="px-3 md:px-0 max-w-120 flex m-auto gap-2 mt-3">
+                        <Input onChange={(e) => setSearchInput(e.target.value)} type="text" placeholder="Busque por um personagem de Rick And Morty" />
+                        <Button type="button" variant="outline">
+                            <Search />
+                            Buscar
+                        </Button>
+                    </div>
+                </motion.div>
                 <div id="resultados" className="w-full flex justify-center mt-3">
                     <div className="md:w-8/10 px-3 md:px-0">
                         <h2 className="font-bold text-xl">
@@ -122,15 +136,21 @@ function ExplorarPage() {
                                 <>
                                     {results.map((item, key) => (
                                         <>
-                                            <Card
-                                                key={key}
-                                                id={item.id}
-                                                name={item.name}
-                                                image={item.image}
-                                                primeiroVistoEm={item.primeiroVistoEm}
-                                                status={item.status}
-                                                ultimoLocal={item.ultimoLocal}
-                                            />
+                                            <motion.div
+                                            initial={{ opacity: 0, y: 40 }}
+                                            animate={{ opacity: 1, y: [40, -5, 0] }}
+                                            transition={{ duration: 1.5, delay: 1 * 0.1, ease: "easeOut" }}
+                                            >
+                                                <Card
+                                                    key={key}
+                                                    id={item.id}
+                                                    name={item.name}
+                                                    image={item.image}
+                                                    primeiroVistoEm={item.primeiroVistoEm}
+                                                    status={item.status}
+                                                    ultimoLocal={item.ultimoLocal}
+                                                />
+                                            </motion.div>
                                         </>
                                     ))}
                                 </>
