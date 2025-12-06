@@ -1,7 +1,7 @@
-import { Controller, Get, Param, Patch, Body, Delete, UseGuards, Request, HttpException, Post, Res } from '@nestjs/common';
+import { Controller, Get, Param, Patch, Body, Delete, UseGuards, Request, Post, Res, UnauthorizedException, ForbiddenException } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDTO, UpdaterUserDTO } from './dto/users.dto';
-import { AuthGuard } from '../auth/auth.guard';
+import { AuthGuard } from '../auth/guard/auth.guard';
 
 @Controller('users')
 export class UsersController {
@@ -11,7 +11,7 @@ export class UsersController {
     @Get("all")
     getAllUsers(@Request() req) {
         if (req.user.type != "admin") {
-            throw new HttpException("Você só pode ver suas informações!", 401)
+            throw new UnauthorizedException("Você só pode ver suas informações!")
         }
 
         return this.userService.findAllUsers()
@@ -35,7 +35,7 @@ export class UsersController {
         @Request() req
     ) {
         if (hash != req.user.sub && req.user.type != "admin") {
-            throw new HttpException("Você só pode ver suas informações!", 401)
+            throw new UnauthorizedException("Você só pode ver suas informações!")
         }
 
         return this.userService.findUserByHash(hash)
@@ -55,7 +55,7 @@ export class UsersController {
     ) {
 
         if (!req.user.sub || !name || hash != req.user.sub) {
-            throw new HttpException("Dados inválidos!", 401)
+            throw new UnauthorizedException("Dados inválidos!")
         }
 
         return this.userService.rename(hash, name)
@@ -69,7 +69,7 @@ export class UsersController {
         @Request() req
     ) {
         if (req.user.sub != hash) {
-            throw new HttpException("Você só pode ver fazer update de dados da sua conta!", 401)
+            throw new UnauthorizedException("Você só pode ver fazer update de dados da sua conta!")
         }
 
         return this.userService.updateUser(req, hash, data.name, data.email, data.password)
@@ -84,7 +84,7 @@ export class UsersController {
     ) {
 
         if (hash != req.user.sub && req.user.type != "admin") {
-            throw new HttpException("Você não pode deletar outra conta!", 403)
+            throw new ForbiddenException("Você não pode deletar outra conta!")
         }
 
         if (hash == req.user.sub) {

@@ -1,8 +1,9 @@
-import { Controller, Post, Body, UseGuards, Request, Get, UnauthorizedException, Response } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Request, Get, UnauthorizedException, Response, Query } from '@nestjs/common';
 import { WeatherLogsDTO } from './dto/weather.dto';
-import { AuthGuard } from '../auth/auth.guard';
+import { AuthGuard } from '../auth/guard/auth.guard';
 import { WeatherService } from './weather.service';
 import { WeatherDayLogsDTO } from './dto/weatherDay.dto';
+import { WeatherDocument } from './repositories/weather.schema';
 
 @Controller('weather')
 export class WeatherController {
@@ -15,14 +16,22 @@ export class WeatherController {
             throw new UnauthorizedException("Apenas admin podem inserir dados!")
         }
     
-        console.log(logs)
+        //console.log(logs)
 
         return this.weatherService.insertLogs(logs)
     }
 
     @Get("logs")
-    get_logs() {
-        return this.weatherService.getLogs()
+    async get_logs(@Query("day") day: string) {
+        const logs: WeatherDocument[] = await this.weatherService.getLogs(day)
+
+        const newLogs: WeatherDocument[] = logs.filter((item) => {
+            const time = new Date(item.timestamp).getHours()
+            return time % 2 === 0
+        })
+
+        return newLogs
+        
     }
 
     @UseGuards(AuthGuard)
@@ -32,14 +41,14 @@ export class WeatherController {
             throw new UnauthorizedException("Apenas admin podem inserir dados!")
         }
     
-        console.log(logs)
+        //console.log(logs)
 
         return this.weatherService.insertDayLogs(logs)
     }
 
     @Get("day/logs")
-    get_day_logs() {
-        return this.weatherService.getDayLogs()
+    get_day_logs(@Query("day") day: string) {
+        return this.weatherService.getDayLogs(day)
     }
 
     @Get("export.xlsx")

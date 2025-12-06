@@ -35,6 +35,11 @@ export class DailyDTO {
     @IsOptional()
     @IsNumber({}, { each: true })
     shortwave_radiation: number[]
+
+    @IsArray()
+    @IsOptional()
+    @IsNumber({}, { each: true })
+    energiaProduzida: number[] = []
 }
 
 export class WeatherDayLogsDTO {
@@ -48,17 +53,14 @@ export class WeatherDayLogsDTO {
     @IsOptional()
     city: string
 
-    @IsString()
-    churrascometro: string
+    // @IsString()
+    // churrascometro: string
 
-    @IsString()
-    insight: string
+    // @IsString()
+    // insight: string
 
-    @IsString()
-    insightEnergia: string
-
-    @IsString()
-    energiaProduzida: string
+    // @IsString()
+    // insightEnergia: string
 
     @ValidateNested({ each: true })
     @Type(() => DailyDTO)

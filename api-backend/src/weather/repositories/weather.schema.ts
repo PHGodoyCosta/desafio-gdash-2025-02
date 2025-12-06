@@ -31,7 +31,7 @@ export class Weather {
     weather_code: number
     
     @Prop()
-    preciptation_probability: number
+    precipitation_probability: number
 
 }
 

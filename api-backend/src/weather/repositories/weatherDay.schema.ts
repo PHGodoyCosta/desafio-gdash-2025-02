@@ -24,8 +24,8 @@ export class WeatherDay {
     @Prop({ required: true })
     insightEnergia: string
 
-    @Prop({ required: true })
-    energiaProduzida: string
+    @Prop({ required: true, type: Number })
+    energiaProduzida: number
 
     @Prop({ required: true })
     timestamp: Date
@@ -43,7 +43,7 @@ export class WeatherDay {
     weather_code: number
     
     @Prop({ type: Number })
-    preciptation_probability: number
+    precipitation_probability: number
 }
 
 export type WeatherDayDocument = HydratedDocument<WeatherDay>

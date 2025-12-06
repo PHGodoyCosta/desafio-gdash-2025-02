@@ -1,4 +1,4 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException, InternalServerErrorException, BadRequestException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from './repositories/users.schema';
 import { Model } from 'mongoose';
@@ -25,7 +25,7 @@ export class UsersService {
 
             return newUser.save()
         } else {
-            throw new HttpException("Usuário já registrado!", 401)
+            throw new BadRequestException("Usuário já registrado!")
         }
     }
 
@@ -33,7 +33,7 @@ export class UsersService {
         try {
             return this.userModel.find().exec()
         } catch {
-            throw new HttpException("Erro ao buscar usuários", 500)
+            throw new InternalServerErrorException("Erro ao buscar usuários")
         }
     }
 
@@ -41,7 +41,7 @@ export class UsersService {
         const user = await this.userModel.findOne({ hash }).exec()
 
         if (!user) {
-            throw new HttpException("Usuário não encontrado", 404)
+            throw new NotFoundException("Usuário não encontrado")
         }
 
         return {
@@ -56,7 +56,7 @@ export class UsersService {
         const user = await this.userModel.findOne({ email }).exec()
 
         if (!user) {
-            throw new HttpException("Usuário não encontrado", 404)
+            throw new NotFoundException("Usuário não encontrado")
         }
 
         return user
@@ -66,7 +66,7 @@ export class UsersService {
         const result = await this.userModel.deleteOne({ hash }).exec()
         
         if (result.deletedCount === 0) {
-            throw new HttpException("Usuário não encontrado", 404);
+            throw new NotFoundException("Usuário não encontrado")
         }
 
         return {
@@ -86,7 +86,7 @@ export class UsersService {
                 hash: hash
             }
         } catch {
-            throw new HttpException("Não consegui renomear o usuário", 500)
+            throw new InternalServerErrorException("Não consegui renomear o usuário")
         }
     }
 
@@ -102,7 +102,7 @@ export class UsersService {
                 hash: hash
             }
         } catch {
-            throw new HttpException("Não consegui fazer o update no Email", 500)
+            throw new InternalServerErrorException("Não consegui fazer o update no Email")
         }
     }
 
@@ -118,12 +118,11 @@ export class UsersService {
                 hash: hash
             }
         } catch {
-            throw new HttpException("Não consegui fazer o update da Senha", 500)
+            throw new InternalServerErrorException("Não consegui fazer o update da Senha")
         }
     }
 
     async updateUser(req: any, hash: string, name: string = "", email: string = "", password: string = "") {
-        //console.log(`${name} | ${email} | ${password}`)
         if (name) {
             await this.rename(hash, name)
         }
@@ -132,7 +131,8 @@ export class UsersService {
             if (!await this.isRegistered(email) && req.user.email != email) {
                 await this.updateEmail(hash, email)
             } else {
-                throw new HttpException("Esse email já está registrado!", 401)
+                
+                throw new BadRequestException("Esse email já está registrado!")
             }
         }
 
