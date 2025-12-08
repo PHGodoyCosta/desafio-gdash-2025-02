@@ -491,7 +491,7 @@ function App() {
                                                 }}
                                             >
                                                 <div className="flex-1 h-[300px] min-w-[320px] p-4">
-                                                    <h3 className="text-md font-semibold lg:mb-5">
+                                                    <h3 className="text-md font-semibold md:mb-5">
                                                         Probabilidade de chuva no dia
                                                     </h3>
                                                     <ResponsiveContainer>
