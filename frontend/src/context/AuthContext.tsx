@@ -30,6 +30,14 @@ export type LoginReturnType = {
     message: string
 }
 
+interface MyJwtPayload {
+    sub: string;
+    email: string;
+    type: "user" | "admin";
+    iat: number;
+    exp: number;
+}
+
 // eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext<AuthContextProps | null>(null);
 
@@ -227,7 +235,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         if (res.ok) {
             console.log(data)
             fetchUser()
-            const decodeToken = jwtDecode(data.token)
+            const decodeToken = jwtDecode<MyJwtPayload>(data.token)
             if (decodeToken.type == "admin") {
                 setIsAdmin(true)
             } else {

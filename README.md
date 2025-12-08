@@ -10,15 +10,15 @@
 - [ ] API NestJS:
   - [x] Armazena logs de clima em MongoDB  
   - [x] Exponde endpoints para listar dados  
-  - [ ] Gera/retorna insights de IA (endpoint próprio)  
+  - [x] Gera/retorna insights de IA (endpoint próprio)  
   - [x] Exporta dados em CSV/XLSX  
   - [x] Implementa CRUD de usuários + autenticação  
   - [x] (Opcional) Integração com API pública paginada  
 - [ ] Frontend React + Vite + Tailwind + shadcn/ui:
-  - [] Dashboard de clima com dados reais  
-  - [] Exibição de insights de IA  
-  - [] CRUD de usuários + login  
-  - [ ] (Opcional) Página consumindo API pública paginada  
+  - [x] Dashboard de clima com dados reais  
+  - [x] Exibição de insights de IA  
+  - [x] CRUD de usuários + login  
+  - [x] (Opcional) Página consumindo API pública paginada  
 - [ ] Docker Compose sobe todos os serviços  
 - [x] Código em TypeScript (backend e frontend)  
 - [ ] Vídeo explicativo (máx. 5 minutos)  

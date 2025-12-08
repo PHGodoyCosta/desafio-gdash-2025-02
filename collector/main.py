@@ -14,12 +14,17 @@ class Collector:
     def __init__(self):
         self.scrapper = Scrapper()
         self.db = Db()
-        
+
     def connect_rabbit(self):
         while True:
             try:
+                self.credentials = pika.PlainCredentials(
+                    os.getenv("RABBITMQ_DEFAULT_USER"),
+                    os.getenv("RABBITMQ_DEFAULT_PASS"),
+                )
+                
                 self.connection = pika.BlockingConnection(
-                    pika.ConnectionParameters(host=os.getenv("RABBITMQ_HOST"))
+                    pika.ConnectionParameters(host=os.getenv("RABBITMQ_DEFAULT_HOST"), credentials=self.credentials)
                 )
                 
                 self.channel = self.connection.channel()
@@ -32,6 +37,11 @@ class Collector:
         try:
             print("[Log] Renovando a temperatura!")
             times = self.db.verificar_dias_faltando()
+
+            if not times["refresh"]:
+                print("[Log] Sem novos dias para passar para o worker")
+                return False
+            
             temperature = self.scrapper.get_temperature_data(start_date=times["start_date"], end_date=times["end_date"])
             temperature_daily = self.scrapper.get_daily_temperature_data(start_date=times["start_date"], end_date=times["end_date"])
             

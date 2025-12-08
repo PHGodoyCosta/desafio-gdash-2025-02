@@ -169,15 +169,20 @@ func Worker(msg string, queueType string) {
 	
 	credencial, err := loginAdmin()
 	if err != nil {
-		log.Fatalln("Erro ao logar como admin", err)
+		log.Fatalln("[Error] Erro ao logar como admin", err)
 	}
 
 	response, err := sendLog(data, credencial.Token, url)
 	if err != nil {
-		log.Fatalln("Erro ao enviar os dados para a API", err)
+		log.Fatalln("[Error] Erro ao enviar os dados para a API", err)
 	}
 
 	fmt.Println(response)
+
+	// Iniciando a Newsletter apenas em 1 chamada do Go Routine.
+	if queueType == "daily" {
+		startNewsletter(credencial.Token)
+	}
 	
 }
 
@@ -206,4 +211,31 @@ func sendLog(jsonStr string, token string, url string) (string, error) {
 	}
 
 	return string(bodyBytes), nil
+}
+
+func startNewsletter(token string) {
+	url := fmt.Sprintf("%s/api/newsletter/send", os.Getenv("API_URL"))
+
+	req, err := http.NewRequest("POST", url, nil)
+	if err != nil {
+		log.Fatalln("[Error] (Newsletter) Não consegui criar a requisição", err)
+	}
+
+	req.Header.Set("Authorization", "Bearer " + token)
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Fatalln("[Error] (Newsletter) Não consegui fazer a requisição", err)
+	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatalln("[Error] (Newsletter) Não consegui ler os dados", err)
+	}
+
+	fmt.Println("[Log] Status:", resp.StatusCode)
+	fmt.Println("[Log] Resposta:", string(body))
+	fmt.Println("[Log] Envio da newsletter iniciado!")
 }

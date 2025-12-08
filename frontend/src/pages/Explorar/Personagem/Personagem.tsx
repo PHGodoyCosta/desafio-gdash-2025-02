@@ -11,12 +11,9 @@ import {
 import { useEffect } from "react"
 import { MoveLeft } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { useNavigate } from "react-router";
-
 
 function Personagem() {
     const { id } = useParams()
-    const navigate = useNavigate()
     const apiUrl = import.meta.env.VITE_API_URL
     const [result, setResult] = useState<CardProps | null | undefined>(undefined)
 

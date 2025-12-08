@@ -66,7 +66,7 @@ function App() {
     const [rainGraficData, setRainGraficaData] = useState<RainGraficDataType[]>([])
 
     const weatherCodeToText = (code: number) => {
-        const map = {
+        const map: Record<number, string> = {
             0: "Céu limpo",
             1: "Principalmente limpo",
             2: "Parcialmente nublado",

@@ -16,7 +16,6 @@ import {
 import { useEffect } from "react"
 import { Spinner } from "@/components/ui/spinner"
 import { motion } from "framer-motion"
-import { Skeleton } from "@/components/ui/skeleton"
 
 function ExplorarPage() {
     const apiOriginUrl = import.meta.env.VITE_API_URL
@@ -84,10 +83,6 @@ function ExplorarPage() {
         if (page - 1 > 0) {
             setPage(p => p - 1)
         }
-    }
-
-    const handleSetPage = (page: number) => {
-        setPage(page)
     }
 
     return (

@@ -28,7 +28,7 @@ class Db:
             hoje + timedelta(days=i)
             for i in range(7)
         ]
-
+    
         results = list(self.collection.find({
             "timestamp": {
                 "$gte": dias_esperados[0],
@@ -46,10 +46,16 @@ class Db:
             if dia not in dias_registrados
         ]
         
+        if len(dias_faltando) < 1:
+            return {
+                "refresh": False
+            }
+        
         start_date = dias_faltando[0]
         end_date = dias_faltando[len(dias_faltando) - 1]
 
         return {
+            "refresh": True,
             "start_date": self._format_date(start_date),
             "end_date": self._format_date(end_date)
         }

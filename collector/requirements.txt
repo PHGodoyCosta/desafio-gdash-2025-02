@@ -1,6 +1,5 @@
 pika
 requests
 apscheduler
-openai
 python-dotenv
 pymongo

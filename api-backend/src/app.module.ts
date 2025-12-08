@@ -22,12 +22,11 @@ import { NewsletterModule } from './newsletter/newsletter.module';
                 const password = config.get<string>("MONGO_DB_PASSWORD")
                 const name = config.get<string>("MONGO_DB_NAME")
                 const port = config.get<string>("MONGO_DB_PORT")
+                const type = config.get<string>("MONGO_DB_TYPE")
 
                 return {
-                    uri: `mongodb://${username}:${password}@localhost:${port}/${name}?authSource=admin`
+                    uri: `mongodb://${username}:${password}@${type}:${port}/${name}?authSource=admin`
                 }
-
-                
             }
         }),
         WeatherModule,
