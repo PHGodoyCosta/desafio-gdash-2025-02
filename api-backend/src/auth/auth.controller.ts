@@ -2,10 +2,14 @@ import { Controller, HttpCode, Post, Body, Res, HttpException } from '@nestjs/co
 //import { Response } from 'express';
 import { AuthService } from './auth.service';
 import { AuthLoginDTO, AuthResponseDTO } from './dto/auth.dto';
+import { ConfigService } from '@nestjs/config';
 
 @Controller('auth')
 export class AuthController {
-    constructor (private readonly authService: AuthService) {}
+    constructor (
+        private readonly authService: AuthService,
+        private readonly configService: ConfigService
+    ) {}
 
     @Post("logout")
     logout(@Res({ passthrough: true }) res) {
@@ -33,7 +37,7 @@ export class AuthController {
         if (token.token) {
             res.cookie('access_token', token.token, {
                 httpOnly: true,
-                secure: false, // producao = true
+                secure: this.configService.get<string>("MODE") == "PRODUCTION" ? true : false, // producao = true
                 sameSite: 'lax',
                 maxAge: 1000 * 60 * 60 * 24, // 1 dia
                 path: "/"

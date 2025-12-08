@@ -19,7 +19,7 @@ async function bootstrap() {
     const port = process.env.PORT ?? 3001;
     app.setGlobalPrefix("api")
     app.enableCors({
-        origin: [process.env.FRONTEND_URL, "http://192.168.3.26:5173"],
+        origin: [process.env.FRONTEND_URL],
         credentials: true
     })
     await app.listen(port);

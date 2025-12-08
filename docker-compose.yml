@@ -45,6 +45,7 @@ services:
         container_name: api
         environment:
             FRONTEND_URL: ${FRONTEND_URL}
+            MODE: ${MODE}
         ports:
         - "3001:3001"
         depends_on:
